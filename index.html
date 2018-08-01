@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+</head>
+<body>
+
+    <div class="clock">
+      <div class="clock-face">
+        
+        <p id="today"></p>
+        
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+
+      </div>
+    </div>
+
+  <style>
+    #today {
+      margin-top: -20px;
+      text-shadow: 3px 3px #0a1d29;
+      z-index: 3;
+    }
+
+    html {
+      background: #000 url(mountains.jpg);
+      background-repeat: no-repeat;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      background-position: center;
+      color: white;
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 13px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      width: 20rem;
+      height: 20rem;
+      border: 10px solid white;
+      border-radius: 50%;
+      margin: 50px auto;
+      position: relative;
+      padding: 10rem;
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 4px #0a1d29,
+        inset 0 0 10px white,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-4px);
+    }
+
+    .hand {
+      width: 50%;
+      height: 5px;
+      background: white;
+      position: absolute;
+      z-index: -1;
+      top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.3s;
+      transition-timing-function: cubic-bezier(0.1, 2.5, 0.75, 1);
+    }
+    
+</style>
+
+<script>
+  const secondHand = document.querySelector('.second-hand');
+  const minsHand = document.querySelector('.min-hand');
+  const hourHand = document.querySelector('.hour-hand');
+
+  function setDate() {
+    const now = new Date();
+
+    const seconds = now.getSeconds();
+    const secondsDegrees = ((seconds / 60) * 360) + 90;
+    secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+
+    const mins = now.getMinutes();
+    const minsDegrees = ((mins / 60) * 360) + ((seconds/60)*6) + 90;
+    minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+
+    const hour = now.getHours();
+    const hourDegrees = ((hour / 12) * 360) + ((mins/60)*30) + 90;
+    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+  }
+
+  setInterval(setDate, 1000);
+
+  setDate();
+
+  var d = new Date();
+  document.getElementById("today").innerHTML = d.toDateString();
+
+</script>
+</body>
+</html>
